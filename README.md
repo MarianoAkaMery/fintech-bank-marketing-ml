@@ -1,17 +1,17 @@
-# Bank Marketing Subscription Prediction – FinTech Project
+﻿# Bank Marketing Subscription Prediction - FinTech Project
 
 ## Overview
 
 This repository contains the final project for the **FinTech** course at Politecnico di Milano.
 
-The objective of the project is to predict whether a bank client will subscribe to a term deposit based on historical data from direct marketing campaigns conducted by a Portuguese banking institution.
+The objective is to predict whether a bank client will subscribe to a term deposit based on historical data from direct marketing campaigns conducted by a Portuguese banking institution.
 
 The problem is framed as a **binary classification task**, where the target variable is:
 
 - `yes`: the client subscribed to the term deposit
 - `no`: the client did not subscribe to the term deposit
 
-The project follows a complete machine learning workflow, including exploratory data analysis, preprocessing, model training, model comparison, feature selection, threshold analysis, and interpretability.
+The project follows a complete machine learning workflow: exploratory data analysis, preprocessing, model training, model comparison, feature selection, threshold analysis, and interpretability.
 
 ---
 
@@ -19,14 +19,15 @@ The project follows a complete machine learning workflow, including exploratory 
 
 ```text
 .
-├── Dataset4.csv
-├── FINTECH_Project_Bank_Marketing_Salvatore_Librici.ipynb
-├── README.md
-└── presentation/
-    └── final_presentation.pptx
+|-- README.md
+|-- Salvatore_Librici_FINTECH_Bank_Marketing_Submit.ipynb
+|-- Salvatore_Librici_FINTECH_Bank_Marketing_Study.ipynb
+`-- content/
+    `-- Dataset4.csv
 ```
 
-> Note: the presentation file may be added after completing the final PowerPoint deliverable.
+The `Submit` notebook is the clean version intended for evaluation.  
+The `Study` notebook is a more commented version used for studying and preparing the presentation.
 
 ---
 
@@ -47,7 +48,7 @@ The dataset contains information related to direct marketing campaigns of a Port
 
 The input variables include:
 
-- client demographic and financial information, such as age, job, marital status, education, balance, housing loan, and personal loan;
+- demographic and financial information, such as age, job, marital status, education, balance, housing loan, and personal loan;
 - information related to the current campaign, such as contact type, month, day, duration, and number of contacts;
 - previous campaign information, such as previous contacts and previous campaign outcome.
 
@@ -59,48 +60,32 @@ The target variable is `y`, indicating whether the client subscribed to the term
 
 ### 1. Exploratory Data Analysis
 
-The notebook begins with a detailed exploratory analysis, including:
+The notebook starts with data loading, data quality checks, target distribution analysis, numerical and categorical feature analysis, business-oriented visualizations, and correlation analysis.
 
-- dataset shape and variable types;
-- missing values and duplicate checks;
-- target distribution analysis;
-- numerical feature distributions;
-- categorical feature analysis;
-- subscription rates by job, month, contact type, and previous campaign outcome;
-- correlation analysis among numerical variables.
-
-The target variable is imbalanced, with a significantly larger number of clients not subscribing to the term deposit. For this reason, accuracy alone is not sufficient to evaluate model quality.
-
----
+The target variable is imbalanced, with many more non-subscribers than subscribers. For this reason, accuracy alone is not sufficient to evaluate model quality.
 
 ### 2. Preprocessing
 
-The preprocessing pipeline includes:
+The preprocessing workflow includes:
 
-- separation of numerical and categorical variables;
-- one-hot encoding for categorical variables;
-- scaling of numerical variables when required;
-- stratified train-validation-test splitting to preserve the target distribution.
-
----
+- target encoding;
+- stratified train-validation-test split;
+- scaling of numerical variables for Logistic Regression;
+- one-hot encoding of categorical variables;
+- separate preprocessing pipelines for Logistic Regression and Random Forest.
 
 ### 3. Models
 
 Two main models are compared:
 
-#### Logistic Regression
+- **Logistic Regression**, used as an interpretable benchmark for binary classification;
+- **Random Forest Classifier**, used to capture nonlinear effects and interactions between variables.
 
-Logistic Regression is used as an interpretable baseline model. It is useful for understanding the linear relationship between predictors and the probability of subscription.
-
-#### Random Forest Classifier
-
-Random Forest is used as a more flexible nonlinear model. It is able to capture interactions among variables and more complex customer behavior patterns.
-
----
+A baseline model is also included to show why accuracy alone can be misleading with an imbalanced target.
 
 ### 4. Model Evaluation
 
-The models are evaluated using several classification metrics:
+The models are evaluated using:
 
 - Accuracy
 - Balanced Accuracy
@@ -111,23 +96,13 @@ The models are evaluated using several classification metrics:
 - PR-AUC
 - Confusion Matrix
 
-Because the dataset is imbalanced, particular attention is given to precision, recall, F1-score, ROC-AUC, and PR-AUC.
-
----
+Because the dataset is imbalanced, particular attention is given to balanced accuracy, recall, precision, F1-score, ROC-AUC and PR-AUC.
 
 ### 5. Threshold Analysis
 
 The default classification threshold of 0.50 is compared with alternative thresholds.
 
-This analysis is important from a business perspective because the bank may prefer different trade-offs between:
-
-- contacting more potential subscribers;
-- reducing unnecessary calls;
-- improving campaign efficiency.
-
-A lower threshold increases recall but also increases the number of contacted clients, while a higher threshold increases precision but misses more potential subscribers.
-
----
+This is relevant from a business perspective because the bank may prefer different trade-offs between contacting more potential subscribers and reducing unnecessary calls.
 
 ### 6. Feature Selection and Importance
 
@@ -137,34 +112,23 @@ Feature importance is studied using:
 - aggregated feature importance by original variable;
 - permutation importance.
 
-The most relevant predictors include:
-
-- call duration;
-- month of contact;
-- previous campaign outcome;
-- contact type;
-- balance;
-- age.
-
-Special attention is given to `duration`, since it is highly predictive but only known after the call takes place. This creates an important operational consideration when using the model for ex-ante campaign targeting.
-
----
+A reduced-feature model is then trained to evaluate whether a smaller set of predictors can preserve most of the predictive performance.
 
 ### 7. Interpretability
 
-The preferred model is interpreted through global and local interpretability tools. The analysis focuses on understanding which features drive the predicted probability of subscription and how they affect the model output.
+The preferred model is interpreted using global and local interpretability tools, including SHAP values. The analysis focuses on understanding which variables drive the predicted probability of subscription.
 
-Interpretability is essential in financial applications because model users must understand the drivers of predictions and the limitations of the model.
+Special attention is given to `duration`, since it is highly predictive but only known after the call takes place. For this reason, the notebook also includes a robustness check without `duration`.
 
 ---
 
 ## Main Findings
 
-The Random Forest model provides stronger overall predictive performance than Logistic Regression, especially in terms of ROC-AUC and PR-AUC.
+The Random Forest model is expected to provide stronger overall predictive performance than Logistic Regression because it can capture nonlinear relationships and interactions among customer, campaign, and previous-contact variables.
 
-The results suggest that customer subscription behavior is not purely linear and may depend on interactions between customer characteristics, campaign timing, previous campaign outcomes, and contact-related variables.
+The threshold analysis shows that the optimal operational threshold depends on the bank's business objective. A lower threshold increases recall and contacts more clients, while a higher threshold increases precision and focuses on fewer clients.
 
-The threshold analysis shows that the optimal operational threshold depends on the bank's business objective. If the goal is to maximize the number of potential subscribers reached, a lower threshold may be preferable. If the goal is to reduce unnecessary calls, a higher threshold may be more appropriate.
+The interpretability analysis helps identify the main drivers of subscription probability and supports the business explanation of the selected model.
 
 ---
 
@@ -197,17 +161,9 @@ This allows the bank to:
 
 ## How to Run
 
-1. Clone the repository:
-
-```bash
-git clone <repository-url>
-```
-
-2. Open the notebook in Google Colab or Jupyter Notebook.
-
-3. Make sure `Dataset4.csv` is available in the expected path.
-
-4. Run all cells sequentially.
+1. Open `Salvatore_Librici_FINTECH_Bank_Marketing_Submit.ipynb` in Google Colab or Jupyter Notebook.
+2. Make sure `content/Dataset4.csv` is available in the repository.
+3. Run all cells sequentially.
 
 ---
 
@@ -215,11 +171,10 @@ git clone <repository-url>
 
 **Salvatore Mariano Librici**  
 Politecnico di Milano  
-FinTech Course – 2025/2026
+FinTech Course - 2025/2026
 
 ---
 
 ## Disclaimer
 
 This project was developed for academic purposes as part of the FinTech course. The results should be interpreted as an educational application of machine learning techniques to a marketing classification problem.
-"# fintech-bank-marketing-ml" 
