@@ -8,10 +8,26 @@ The objective is to predict whether a bank client will subscribe to a term depos
 
 The problem is framed as a **binary classification task**, where the target variable is:
 
-- `yes`: the client subscribed to the term deposit
-- `no`: the client did not subscribe to the term deposit
+- `yes`: the client subscribed to the term deposit;
+- `no`: the client did not subscribe to the term deposit.
 
 The project follows a complete machine learning workflow: exploratory data analysis, preprocessing, model training, model comparison, feature selection, threshold analysis, and interpretability.
+
+---
+
+## Files for Evaluation
+
+The main notebook for evaluation is:
+
+```text
+Salvatore_Librici_FINTECH_Bank_Marketing_Submit.ipynb
+```
+
+An HTML export is also provided for easier reading without running the notebook:
+
+```text
+Salvatore_Librici_FINTECH_Bank_Marketing_Submit.html
+```
 
 ---
 
@@ -21,24 +37,23 @@ The project follows a complete machine learning workflow: exploratory data analy
 .
 |-- README.md
 |-- Salvatore_Librici_FINTECH_Bank_Marketing_Submit.ipynb
-|-- Salvatore_Librici_FINTECH_Bank_Marketing_Study.ipynb
+|-- Salvatore_Librici_FINTECH_Bank_Marketing_Submit.html
 `-- content/
     `-- Dataset4.csv
 ```
 
-The `Submit` notebook is the clean version intended for evaluation.  
-The `Study` notebook is a more commented version used for studying and preparing the presentation.
-
 ---
 
-## Project Goals
+## Assignment Compliance
 
-The assignment requires the following tasks:
-
-1. Build two different machine learning algorithms to estimate the probability that a client subscribes to a term deposit.
-2. Compare the predictive performance of the models.
-3. Propose a feature selection strategy and evaluate its impact on predictions.
-4. Provide interpretability results for the preferred model and explain why it was selected.
+| Requirement | Implementation in this project |
+|---|---|
+| Create two different ML algorithms to compute the probability that a client will subscribe to a term deposit | Logistic Regression and Random Forest Classifier are trained and evaluated using predicted probabilities. |
+| Compare the algorithms | Models are compared on validation data using accuracy, balanced accuracy, precision, recall, F1-score, ROC-AUC and PR-AUC. |
+| Propose a strategy to decrease the number of features | Random Forest feature importance is aggregated at original-variable level and used to select the top predictors. |
+| Study the impact of feature selection on predictions | The selected-feature Random Forest is retrained and compared with the full-feature Random Forest on validation and test data. |
+| Provide interpretability results for the preferred algorithm | Feature importance, permutation importance and SHAP explanations are provided for the preferred Random Forest model. |
+| Explain why the preferred model was selected | Random Forest is selected because it achieves the strongest validation ROC-AUC and PR-AUC among the compared models, while also providing better precision than Logistic Regression. |
 
 ---
 
@@ -122,13 +137,13 @@ Special attention is given to `duration`, since it is highly predictive but only
 
 ---
 
-## Main Findings
+## Main Results
 
-The Random Forest model is expected to provide stronger overall predictive performance than Logistic Regression because it can capture nonlinear relationships and interactions among customer, campaign, and previous-contact variables.
+The Random Forest model provides the strongest validation ROC-AUC and PR-AUC among the compared models. This makes it the preferred model, since the task is not only to classify clients but also to estimate and rank subscription probabilities.
 
-The threshold analysis shows that the optimal operational threshold depends on the bank's business objective. A lower threshold increases recall and contacts more clients, while a higher threshold increases precision and focuses on fewer clients.
+Feature selection shows that a reduced set of important variables can preserve a similar level of predictive performance. This improves interpretability and supports a more compact model specification.
 
-The interpretability analysis helps identify the main drivers of subscription probability and supports the business explanation of the selected model.
+Permutation importance and SHAP analysis identify the main drivers of subscription probability. Variables such as `duration`, `month`, `contact`, `housing`, and `poutcome` are among the most relevant predictors.
 
 ---
 
@@ -143,6 +158,8 @@ This allows the bank to:
 - improve allocation of call-center resources;
 - design more targeted marketing strategies;
 - better understand the drivers of client subscription behavior.
+
+The variable `duration` should be interpreted carefully because it is only known after the phone call starts. For a real pre-campaign targeting strategy, the model without `duration` is more realistic.
 
 ---
 
@@ -165,11 +182,18 @@ This allows the bank to:
 2. Make sure `content/Dataset4.csv` is available in the repository.
 3. Run all cells sequentially.
 
+If execution is not required, open the HTML export:
+
+```text
+Salvatore_Librici_FINTECH_Bank_Marketing_Submit.html
+```
+
 ---
 
 ## Author
 
 **Salvatore Mariano Librici**  
+salvatoremariano.librici@mail.polimi.it  
 Politecnico di Milano  
 FinTech Course - 2025/2026
 
@@ -178,3 +202,4 @@ FinTech Course - 2025/2026
 ## Disclaimer
 
 This project was developed for academic purposes as part of the FinTech course. The results should be interpreted as an educational application of machine learning techniques to a marketing classification problem.
+
