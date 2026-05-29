@@ -1,5 +1,8 @@
 ﻿# Bank Marketing Subscription Prediction - FinTech Project
 
+**Author:** Salvatore Mariano Librici  
+**Email:** salvatoremariano.librici@mail.polimi.it
+
 ## Overview
 
 This repository contains the final project for the **FinTech** course at Politecnico di Milano.
