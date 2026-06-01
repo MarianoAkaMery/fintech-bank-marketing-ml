@@ -32,6 +32,12 @@ An HTML export is also provided for easier reading without running the notebook:
 Salvatore_Librici_FINTECH_Bank_Marketing_Submit.html
 ```
 
+The PowerPoint presentation required by the assignment is:
+
+```text
+Bank_Marketing_Subscription_Prediction.pptx
+```
+
 ---
 
 ## Repository Structure
@@ -39,6 +45,8 @@ Salvatore_Librici_FINTECH_Bank_Marketing_Submit.html
 ```text
 .
 |-- README.md
+|-- Assignment2.pdf
+|-- Bank_Marketing_Subscription_Prediction.pptx
 |-- Salvatore_Librici_FINTECH_Bank_Marketing_Submit.ipynb
 |-- Salvatore_Librici_FINTECH_Bank_Marketing_Submit.html
 `-- content/
@@ -205,4 +213,5 @@ FinTech Course - 2025/2026
 ## Disclaimer
 
 This project was developed for academic purposes as part of the FinTech course. The results should be interpreted as an educational application of machine learning techniques to a marketing classification problem.
+
 
